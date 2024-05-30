@@ -8,7 +8,6 @@ import Cell from "./Cell";
 import { BehaviorSubject } from "rxjs";
 import { useWatch } from "../../observables/useWatch";
 import { useComputed } from "../../observables/useComputed";
-import { useCallback } from "react";
 
 type Props = {
   entries: Path["entries"];
@@ -20,11 +19,10 @@ type Props = {
 export default function CellsWrapper(props: Props) {
   probeCall(CellsWrapper.name);
   const { entries, linesSubject, offsetX, offsetY } = props;
-  const valueCallback = useCallback(
-    (lines: Line[]) => computeValue(entries, lines),
-    [entries]
+  const valueSubject = useComputed(
+    (lines) => computeValue(entries, lines),
+    [linesSubject]
   );
-  const valueSubject = useComputed(valueCallback, [linesSubject]);
   const value = useWatch(valueSubject);
   return <Cell value={value} offsetX={offsetX} offsetY={offsetY} />;
 }

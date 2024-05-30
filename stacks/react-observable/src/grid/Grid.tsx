@@ -12,7 +12,6 @@ import {
 } from "@reactivity-comparison/pivoting";
 import { useComputed } from "../observables/useComputed";
 import { useWatch } from "../observables/useWatch";
-import { useCallback } from "react";
 
 type Props = {
   linesSubject: BehaviorSubject<Line[]>;
@@ -24,18 +23,16 @@ export default function Grid(props: Props) {
   probeCall(Grid.name);
   const { linesSubject, columnHeaderIds, rowHeaderIds } = props;
 
-  const columnsCallback = useCallback(
-    (lines: Line[]) => buildHeaders(lines, columnHeaderIds, 0),
-    [columnHeaderIds]
+  const columnsSubject = useComputed(
+    (lines) => buildHeaders(lines, columnHeaderIds, 0),
+    [linesSubject]
   );
-  const columnsSubject = useComputed(columnsCallback, [linesSubject]);
   const columns = useWatch(columnsSubject);
 
-  const rowsCallback = useCallback(
-    (lines: Line[]) => buildHeaders(lines, rowHeaderIds, 0),
-    [rowHeaderIds]
+  const rowsSubject = useComputed(
+    (lines) => buildHeaders(lines, rowHeaderIds, 0),
+    [linesSubject]
   );
-  const rowsSubject = useComputed(rowsCallback, [linesSubject]);
   const rows = useWatch(rowsSubject);
 
   const { columnsDepth, rowsDepth } = computeGridDimensions(columns, rows);

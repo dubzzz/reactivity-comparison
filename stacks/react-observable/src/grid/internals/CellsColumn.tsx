@@ -7,7 +7,6 @@ import {
 } from "@reactivity-comparison/pivoting";
 import { BehaviorSubject } from "rxjs";
 import { useComputed } from "../../observables/useComputed";
-import { useCallback } from "react";
 import CellsWrapper from "./CellWrapper";
 
 type Props = {
@@ -21,13 +20,10 @@ type Props = {
 export default function CellsColumn(props: Props) {
   probeCall(CellsColumn.name);
   const { pathRows, linesSubject, rowsDepth, columnsDepth, columnPath } = props;
-  const filteredLinesCallback = useCallback(
-    (lines: Line[]) => filterLines(columnPath.entries, lines),
-    [columnPath]
+  const filteredLinesSubject = useComputed(
+    (lines) => filterLines(columnPath.entries, lines),
+    [linesSubject]
   );
-  const filteredLinesSubject = useComputed(filteredLinesCallback, [
-    linesSubject,
-  ]);
   return (
     <Fragment key={columnPath.offset}>
       {pathRows.map((rowPath) => (
