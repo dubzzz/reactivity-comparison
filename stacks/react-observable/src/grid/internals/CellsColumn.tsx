@@ -2,15 +2,13 @@ import { Fragment } from "react/jsx-runtime";
 import {
   Line,
   Path,
-  computeValue,
   filterLines,
   probeCall,
 } from "@reactivity-comparison/pivoting";
-import Cell from "./Cell";
 import { BehaviorSubject } from "rxjs";
-import { useWatch } from "../../observables/useWatch";
 import { useComputed } from "../../observables/useComputed";
 import { useCallback } from "react";
+import CellsWrapper from "./CellWrapper";
 
 type Props = {
   pathRows: Path[];
@@ -30,13 +28,13 @@ export default function CellsColumn(props: Props) {
   const filteredLinesSubject = useComputed(filteredLinesCallback, [
     linesSubject,
   ]);
-  const filteredLines = useWatch(filteredLinesSubject);
   return (
     <Fragment key={columnPath.offset}>
       {pathRows.map((rowPath) => (
-        <Cell
+        <CellsWrapper
           key={rowPath.offset}
-          value={computeValue(rowPath.entries, filteredLines)}
+          entries={rowPath.entries}
+          linesSubject={filteredLinesSubject}
           offsetX={columnPath.offset + rowsDepth}
           offsetY={rowPath.offset + columnsDepth}
         />
