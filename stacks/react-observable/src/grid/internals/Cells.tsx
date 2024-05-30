@@ -8,20 +8,23 @@ import {
   probeCall,
 } from "@reactivity-comparison/pivoting";
 import Cell from "./Cell";
+import { BehaviorSubject } from "rxjs";
+import { useWatch } from "../../observables/useWatch";
 
 type Props = {
   columns: HeaderTree[];
   rows: HeaderTree[];
-  lines: Line[];
+  linesSubject: BehaviorSubject<Line[]>;
   rowsDepth: number;
   columnsDepth: number;
 };
 
 export default function Cells(props: Props) {
   probeCall(Cells.name);
-  const { columns, rows, lines, rowsDepth, columnsDepth } = props;
+  const { columns, rows, linesSubject, rowsDepth, columnsDepth } = props;
   const pathColumns = computePaths(columns);
   const pathRows = computePaths(rows);
+  const lines = useWatch(linesSubject);
   return (
     <>
       {pathColumns.map((columnPath) => {

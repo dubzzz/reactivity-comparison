@@ -2,7 +2,7 @@ import { cloneDeep } from "lodash";
 import Grid, { toHeaderId, toHeaders } from "./grid/Grid";
 import { probeCall } from "@reactivity-comparison/pivoting";
 import { usePipe } from "./observables/usePipe";
-import { useWatch } from "./observables/useWatch";
+import { readSync } from "./observables/readSync";
 
 const initialLines = [
   {
@@ -50,20 +50,20 @@ const initialLines = [
 export default function App() {
   probeCall(App.name);
   const [linesSubject, setLines] = usePipe(initialLines);
-  const lines = useWatch(linesSubject);
 
   return (
     <div>
       <div>
         <button
           onClick={() => {
-            setLines(cloneDeep(lines));
+            setLines(cloneDeep(readSync(linesSubject)));
           }}
         >
           Refresh data
         </button>
         <button
           onClick={() => {
+            const lines = readSync(linesSubject);
             setLines([
               { ...lines[0], value: lines[0].value + 1 },
               ...lines.slice(1),
@@ -75,7 +75,7 @@ export default function App() {
       </div>
       <div style={{ position: "relative" }}>
         <Grid
-          lines={lines}
+          linesSubject={linesSubject}
           rowHeaderIds={[toHeaderId("Country"), toHeaderId("Town")]}
           columnHeaderIds={[toHeaderId("Product")]}
         ></Grid>
