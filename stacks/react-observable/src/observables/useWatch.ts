@@ -1,5 +1,6 @@
 import { useCallback, useSyncExternalStore } from "react";
 import { BehaviorSubject } from "rxjs";
+import { readSync } from "./readSync";
 
 export function useWatch<T>(subject: BehaviorSubject<T>): T {
   const subscribe = useCallback(
@@ -9,11 +10,6 @@ export function useWatch<T>(subject: BehaviorSubject<T>): T {
     },
     [subject]
   );
-  const getSnapshot = useCallback(() => {
-    let lastValue: T = null!;
-    const subscription = subject.subscribe((value) => (lastValue = value));
-    subscription.unsubscribe();
-    return lastValue; // it's a BehaviorSubject we always get the value synchronously
-  }, [subject]);
+  const getSnapshot = useCallback(() => readSync(subject), [subject]);
   return useSyncExternalStore(subscribe, getSnapshot);
 }
