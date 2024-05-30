@@ -1,0 +1,8 @@
+{
+  "private": true,
+  "name": "@reactivity-comparison/root",
+  "version": "0.0.0",
+  "description": "Quick-and-dirty comparison of reactivity between several options",
+  "author": "Nicolas DUBIEN <github@dubien.org>",
+  "license": "MIT"
+}

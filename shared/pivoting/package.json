@@ -1,0 +1,19 @@
+{
+  "private": true,
+  "name": "@reactivity-comparison/pivoting",
+  "version": "0.0.0",
+  "type": "module",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "types": "./dist/main.d.ts",
+      "default": "./dist/main.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "typescript": "5.4.5"
+  }
+}

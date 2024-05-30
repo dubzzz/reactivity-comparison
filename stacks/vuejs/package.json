@@ -1,0 +1,23 @@
+{
+  "private": true,
+  "name": "@reactivity-comparison/vuejs",
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@reactivity-comparison/pivoting": "workspace:*",
+    "lodash": "4.17.21",
+    "vue": "^3.4.21"
+  },
+  "devDependencies": {
+    "@types/lodash": "4.17.4",
+    "@vitejs/plugin-vue": "^5.0.4",
+    "typescript": "^5.2.2",
+    "vite": "^5.2.0",
+    "vue-tsc": "^2.0.6"
+  }
+}
