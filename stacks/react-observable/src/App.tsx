@@ -1,7 +1,8 @@
-import { useState } from "react";
 import { cloneDeep } from "lodash";
 import Grid, { toHeaderId, toHeaders } from "./grid/Grid";
 import { probeCall } from "@reactivity-comparison/pivoting";
+import { usePipe } from "./observables/usePipe";
+import { useWatch } from "./observables/useWatch";
 
 const initialLines = [
   {
@@ -48,7 +49,8 @@ const initialLines = [
 
 export default function App() {
   probeCall(App.name);
-  const [lines, setLines] = useState(initialLines);
+  const [linesSubject, setLines] = usePipe(initialLines);
+  const lines = useWatch(linesSubject);
 
   return (
     <div>
