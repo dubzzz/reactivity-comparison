@@ -5,7 +5,6 @@ import {
   probeCall,
   HeaderId,
   Line,
-  LineHeaders,
   buildHeaders,
   computeGridDimensions,
 } from "@reactivity-comparison/pivoting";
@@ -36,14 +35,4 @@ export default function Grid(props: Props) {
       />
     </div>
   );
-}
-
-// eslint-disable-next-line react-refresh/only-export-components
-export function toHeaders(headers: Record<string, string>): LineHeaders {
-  return headers as LineHeaders;
-}
-
-// eslint-disable-next-line react-refresh/only-export-components
-export function toHeaderId(headerId: string): HeaderId {
-  return headerId as HeaderId;
 }

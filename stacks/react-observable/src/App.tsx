@@ -1,6 +1,10 @@
 import { cloneDeep } from "lodash";
-import Grid, { toHeaderId, toHeaders } from "./grid/Grid";
-import { probeCall } from "@reactivity-comparison/pivoting";
+import Grid from "./grid/Grid";
+import {
+  probeCall,
+  toHeaderId,
+  toHeaders,
+} from "@reactivity-comparison/pivoting";
 import { usePipe } from "./observables/usePipe";
 import { readSync } from "./observables/readSync";
 

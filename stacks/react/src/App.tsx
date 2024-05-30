@@ -1,7 +1,11 @@
 import { useState } from "react";
 import { cloneDeep } from "lodash";
-import Grid, { toHeaderId, toHeaders } from "./grid/Grid";
-import { probeCall } from "@reactivity-comparison/pivoting";
+import Grid from "./grid/Grid";
+import {
+  probeCall,
+  toHeaderId,
+  toHeaders,
+} from "@reactivity-comparison/pivoting";
 
 const initialLines = [
   {
