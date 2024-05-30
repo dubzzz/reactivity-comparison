@@ -72,6 +72,24 @@ export default function App() {
         >
           Update one cell
         </button>
+        <button
+          onClick={() => {
+            const lines = readSync(linesSubject);
+            setLines([
+              ...lines.slice(0, 4),
+              {
+                headers: toHeaders({
+                  Country: "United-States",
+                  Town: "Los Angeles",
+                  Product: "ABCD"[Math.floor(Math.random() * 4)],
+                }),
+                value: Math.floor(Math.random() * 10),
+              },
+            ]);
+          }}
+        >
+          Update one value
+        </button>
       </div>
       <div style={{ position: "relative" }}>
         <Grid
