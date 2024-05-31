@@ -109,6 +109,48 @@ export function computeGridDimensions(
   };
 }
 
+export type HeaderSpan = {
+  backingTree: HeaderTree;
+  parentSpan: HeaderSpan | undefined;
+};
+export type HeaderSpanLevel = HeaderSpan[];
+export function extractHeaderSpans(
+  trees: HeaderTree[],
+  parentSpan: HeaderSpan | undefined = undefined
+): HeaderSpanLevel[] {
+  if (trees.length === 0) {
+    return [];
+  }
+
+  const currentLevel: HeaderSpanLevel = [];
+  const subLevels: HeaderSpanLevel[] = [];
+  for (const tree of trees) {
+    // Handling current level
+    const span: HeaderSpan = {
+      backingTree: tree,
+      parentSpan,
+    };
+    currentLevel.push(span);
+
+    // Handling sub-levels
+    const subSpans = extractHeaderSpans(tree.children, parentSpan);
+    for (
+      let subSpanIndex = 0;
+      subSpanIndex !== subSpans.length;
+      ++subSpanIndex
+    ) {
+      const subSpan = subSpans[subSpanIndex]!;
+      if (subLevels.length <= subSpanIndex) {
+        subLevels.push(subSpan);
+      } else {
+        subLevels[subSpanIndex]!.push(...subSpan);
+      }
+    }
+  }
+
+  return [currentLevel, ...subLevels];
+}
+
 type PathEntry = { headerId: HeaderId; headerValue: HeaderValue };
 export type Path = { entries: PathEntry[]; offset: number };
 
