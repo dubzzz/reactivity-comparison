@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ComputedRef, computed } from "vue";
+import { computed } from "vue";
 import {
   buildHeaders,
   Line,
@@ -31,8 +31,8 @@ const rowsPaths = computed(() => extractPathsFromSpans(rowsSpans.value));
   <Rows :rows-spans="rowsSpans" :columns-depth="columnsSpans.length" />
   <Columns :columns-spans="columnsSpans" :rows-depth="rowsSpans.length" />
   <Cells
-    :rows="rowsHeaders"
-    :columns="columnsHeaders"
+    :rows-paths="rowsPaths"
+    :columns-paths="columnsPaths"
     :lines="lines"
     :rows-depth="rowsSpans.length"
     :columns-depth="columnsSpans.length"

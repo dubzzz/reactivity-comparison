@@ -1,35 +1,29 @@
 <script setup lang="ts">
-import { computed } from "vue";
-import {
-  computePaths,
-  Line,
-  HeaderTree,
-} from "@reactivity-comparison/pivoting";
-import CellsColumn from "./CellsColumn.vue";
+import { Line, Path } from "@reactivity-comparison/pivoting";
+import CellWrapper from "./CellWrapper.vue";
 
 type Props = {
-  columns: HeaderTree[];
-  rows: HeaderTree[];
+  columnsPaths: Path[];
+  rowsPaths: Path[];
   lines: Line[];
   rowsDepth: number;
   columnsDepth: number;
 };
-const { columns, rows, lines, rowsDepth, columnsDepth } = defineProps<Props>();
-
-const pathColumns = computed(() => computePaths(columns));
-const pathRows = computed(() => computePaths(rows));
+const { columnsPaths, rowsPaths, lines, rowsDepth, columnsDepth } =
+  defineProps<Props>();
 </script>
 
 <template>
-  <CellsColumn
-    v-for="columnPath in pathColumns"
-    :key="columnPath.offset"
-    :path-rows="pathRows"
-    :column-path="columnPath"
-    :lines="lines"
-    :rows-depth="rowsDepth"
-    :columns-depth="columnsDepth"
-  ></CellsColumn>
+  <template v-for="(columnPath, columnIndex) in columnsPaths" :key="columnIndex"
+    ><CellWrapper
+      v-for="(rowPath, rowIndex) in rowsPaths"
+      :key="rowIndex"
+      :path-entries="[...columnPath.entries, ...rowPath.entries]"
+      :lines="lines"
+      :offset-x="columnPath.offset + rowsDepth"
+      :offset-y="rowPath.offset + columnsDepth"
+    ></CellWrapper
+  ></template>
 </template>
 
 <style scoped></style>
