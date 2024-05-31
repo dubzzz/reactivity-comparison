@@ -1,15 +1,11 @@
-import {
-  HeaderTree,
-  Line,
-  computePaths,
-  probeCall,
-} from "@reactivity-comparison/pivoting";
+import { Line, Path, probeCall } from "@reactivity-comparison/pivoting";
 import { BehaviorSubject } from "rxjs";
 import CellsColumn from "./CellsColumn";
+import { useWatch } from "../../observables/useWatch";
 
 type Props = {
-  columns: HeaderTree[];
-  rows: HeaderTree[];
+  columnsPathsSubject: BehaviorSubject<Path[]>;
+  rowsPathsSubject: BehaviorSubject<Path[]>;
   linesSubject: BehaviorSubject<Line[]>;
   rowsDepth: number;
   columnsDepth: number;
@@ -17,16 +13,22 @@ type Props = {
 
 export default function Cells(props: Props) {
   probeCall(Cells.name);
-  const { columns, rows, linesSubject, rowsDepth, columnsDepth } = props;
-  const pathColumns = computePaths(columns);
-  const pathRows = computePaths(rows);
+  const {
+    columnsPathsSubject,
+    rowsPathsSubject,
+    linesSubject,
+    rowsDepth,
+    columnsDepth,
+  } = props;
+  const columnsPaths = useWatch(columnsPathsSubject);
+  const rowsPaths = useWatch(rowsPathsSubject);
   return (
     <>
-      {pathColumns.map((columnPath) => {
+      {columnsPaths.map((columnPath) => {
         return (
           <CellsColumn
             key={columnPath.offset}
-            pathRows={pathRows}
+            pathRows={rowsPaths}
             columnPath={columnPath}
             columnsDepth={columnsDepth}
             linesSubject={linesSubject}

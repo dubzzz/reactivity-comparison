@@ -16,6 +16,7 @@ export default function Columns(props: Props) {
         <Fragment key={index}>
           {spanLevel.map((span) => (
             <Header
+              key={span.backingTree.offset}
               offsetX={span.backingTree.offset + rowsDepth}
               offsetY={index}
               sizeX={span.backingTree.size}

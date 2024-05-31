@@ -58,8 +58,8 @@ export default function Grid(props: Props) {
         rowsDepth={rowsDepth}
       />
       <Cells
-        rows={rows}
-        columns={columns}
+        rowsPathsSubject={rowsPathsSubject}
+        columnsPathsSubject={columnsPathsSubject}
         linesSubject={linesSubject}
         rowsDepth={rowsDepth}
         columnsDepth={columnsDepth}
