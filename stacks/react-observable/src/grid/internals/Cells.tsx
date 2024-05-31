@@ -1,7 +1,8 @@
 import { Line, Path, probeCall } from "@reactivity-comparison/pivoting";
 import { BehaviorSubject } from "rxjs";
-import CellsColumn from "./CellsColumn";
 import { useWatch } from "../../observables/useWatch";
+import CellsWrapper from "./CellWrapper";
+import { Fragment } from "react";
 
 type Props = {
   columnsPathsSubject: BehaviorSubject<Path[]>;
@@ -26,14 +27,17 @@ export default function Cells(props: Props) {
     <>
       {columnsPaths.map((columnPath) => {
         return (
-          <CellsColumn
-            key={columnPath.offset}
-            pathRows={rowsPaths}
-            columnPath={columnPath}
-            columnsDepth={columnsDepth}
-            linesSubject={linesSubject}
-            rowsDepth={rowsDepth}
-          />
+          <Fragment key={columnPath.offset}>
+            {rowsPaths.map((rowPath) => (
+              <CellsWrapper
+                key={rowPath.offset}
+                entries={[...columnPath.entries, ...rowPath.entries]}
+                linesSubject={linesSubject}
+                offsetX={columnPath.offset + rowsDepth}
+                offsetY={rowPath.offset + columnsDepth}
+              />
+            ))}
+          </Fragment>
         );
       })}
     </>
