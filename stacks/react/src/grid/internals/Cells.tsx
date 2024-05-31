@@ -1,8 +1,7 @@
 import { Fragment } from "react/jsx-runtime";
 import {
-  HeaderTree,
   Line,
-  computePaths,
+  Path,
   computeValue,
   filterLines,
   probeCall,
@@ -10,8 +9,8 @@ import {
 import Cell from "./Cell";
 
 type Props = {
-  columns: HeaderTree[];
-  rows: HeaderTree[];
+  columnsPaths: Path[];
+  rowsPaths: Path[];
   lines: Line[];
   rowsDepth: number;
   columnsDepth: number;
@@ -19,16 +18,14 @@ type Props = {
 
 export default function Cells(props: Props) {
   probeCall(Cells.name);
-  const { columns, rows, lines, rowsDepth, columnsDepth } = props;
-  const pathColumns = computePaths(columns);
-  const pathRows = computePaths(rows);
+  const { columnsPaths, rowsPaths, lines, rowsDepth, columnsDepth } = props;
   return (
     <>
-      {pathColumns.map((columnPath) => {
+      {columnsPaths.map((columnPath) => {
         const filteredLines = filterLines(columnPath.entries, lines);
         return (
           <Fragment key={columnPath.offset}>
-            {pathRows.map((rowPath) => (
+            {rowsPaths.map((rowPath) => (
               <Cell
                 key={rowPath.offset}
                 value={computeValue(rowPath.entries, filteredLines)}

@@ -154,6 +154,22 @@ export function extractHeaderSpans(
 type PathEntry = { headerId: HeaderId; headerValue: HeaderValue };
 export type Path = { entries: PathEntry[]; offset: number };
 
+export function extractPathsFromSpans(spans: HeaderSpanLevel[]): Path[] {
+  const mostGranularSpans = last(spans); // We make the assumptions that we always have at least one layer of headers
+  return mostGranularSpans.map((span): Path => {
+    const entries: PathEntry[] = [];
+    let currentSpan: typeof span | undefined = span;
+    while (currentSpan !== undefined) {
+      entries.push({
+        headerId: currentSpan.backingTree.id,
+        headerValue: currentSpan.backingTree.value,
+      });
+      currentSpan = currentSpan.parentSpan;
+    }
+    return { entries, offset: span.backingTree.offset };
+  });
+}
+
 export function computePaths(trees: HeaderTree[]): Path[] {
   probeCall(computePaths.name);
 
