@@ -7,7 +7,6 @@ import {
   HeaderId,
   Line,
   buildHeaders,
-  computeGridDimensions,
   extractHeaderSpans,
   extractPathsFromSpans,
 } from "@reactivity-comparison/pivoting";
@@ -34,7 +33,9 @@ export default function Grid(props: Props) {
   const columnsPathsSubject = useComputed(extractPathsFromSpans, [
     columnsSpansSubject,
   ]);
-  const columns = useWatch(columnsHeadersSubject);
+  const columnsDepth = useWatch(
+    useComputed((columnsSpans) => columnsSpans.length, [columnsSpansSubject])
+  );
 
   const rowsHeadersSubject = useComputed(
     (lines) => buildHeaders(lines, rowHeaderIds, 0),
@@ -46,9 +47,9 @@ export default function Grid(props: Props) {
   const rowsPathsSubject = useComputed(extractPathsFromSpans, [
     rowsSpansSubject,
   ]);
-  const rows = useWatch(rowsHeadersSubject);
-
-  const { columnsDepth, rowsDepth } = computeGridDimensions(columns, rows);
+  const rowsDepth = useWatch(
+    useComputed((rowsSpans) => rowsSpans.length, [rowsSpansSubject])
+  );
 
   return (
     <div>
