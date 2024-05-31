@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { computed } from "vue";
+import { ComputedRef, computed } from "vue";
 import {
   buildHeaders,
-  computeGridDimensions,
   Line,
   HeaderId,
+  extractHeaderSpans,
+  extractPathsFromSpans,
 } from "@reactivity-comparison/pivoting";
 import Cells from "./Cells.vue";
 import Columns from "./Columns.vue";
@@ -17,22 +18,24 @@ type Props = {
 };
 const { lines, rowHeaderIds, columnHeaderIds } = defineProps<Props>();
 
-const columns = computed(() => buildHeaders(lines, columnHeaderIds, 0));
-const rows = computed(() => buildHeaders(lines, rowHeaderIds, 0));
-const dimensions = computed(() =>
-  computeGridDimensions(columns.value, rows.value)
-);
+const columnsHeaders = computed(() => buildHeaders(lines, columnHeaderIds, 0));
+const columnsSpans = computed(() => extractHeaderSpans(columnsHeaders.value));
+const columnsPaths = computed(() => extractPathsFromSpans(columnsSpans.value));
+
+const rowsHeaders = computed(() => buildHeaders(lines, rowHeaderIds, 0));
+const rowsSpans = computed(() => extractHeaderSpans(rowsHeaders.value));
+const rowsPaths = computed(() => extractPathsFromSpans(rowsSpans.value));
 </script>
 
 <template>
-  <Rows :rows="rows" :offset="0" :columns-depth="dimensions.columnsDepth" />
-  <Columns :columns="columns" :offset="0" :rows-depth="dimensions.rowsDepth" />
+  <Rows :rows-spans="rowsSpans" :columns-depth="columnsSpans.length" />
+  <Columns :columns-spans="columnsSpans" :rows-depth="rowsSpans.length" />
   <Cells
-    :rows="rows"
-    :columns="columns"
+    :rows="rowsHeaders"
+    :columns="columnsHeaders"
     :lines="lines"
-    :rows-depth="dimensions.rowsDepth"
-    :columns-depth="dimensions.columnsDepth"
+    :rows-depth="rowsSpans.length"
+    :columns-depth="columnsSpans.length"
   />
 </template>
 

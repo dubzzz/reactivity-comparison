@@ -1,32 +1,26 @@
 <script setup lang="ts">
-import { HeaderTree } from "@reactivity-comparison/pivoting";
+import { HeaderSpanLevel } from "@reactivity-comparison/pivoting";
 import Header from "./Header.vue";
 
 type Props = {
-  rows: HeaderTree[];
-  offset: number;
+  rowsSpans: HeaderSpanLevel[];
   columnsDepth: number;
 };
-const { rows, offset, columnsDepth } = defineProps<Props>();
+const { rowsSpans, columnsDepth } = defineProps<Props>();
 </script>
 
 <template>
-  <Header
-    v-for="row in rows"
-    :key="row.offset"
-    :offset-x="offset"
-    :offset-y="row.offset + columnsDepth"
-    :size-x="1"
-    :size-y="row.size"
-    :value="row.value"
-  ></Header>
-  <Rows
-    v-for="row in rows"
-    :key="row.offset"
-    :rows="row.children"
-    :offset="offset + 1"
-    :columns-depth="columnsDepth"
-  ></Rows>
+  <template v-for="(spanLevel, index) in rowsSpans" :key="index"
+    ><Header
+      v-for="span in spanLevel"
+      :key="span.backingTree.offset"
+      :offset-x="index"
+      :offset-y="span.backingTree.offset + columnsDepth"
+      :size-x="1"
+      :size-y="span.backingTree.size"
+      :value="span.backingTree.value"
+    ></Header
+  ></template>
 </template>
 
 <style scoped></style>
