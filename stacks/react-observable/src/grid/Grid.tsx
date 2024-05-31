@@ -23,9 +23,14 @@ export default function Grid(props: Props) {
   probeCall(Grid.name);
   const { linesSubject, columnHeaderIds, rowHeaderIds } = props;
 
+  const linesWithoutDataSubject = useComputed(
+    (lines) => lines.map((line) => ({ headers: line.headers })),
+    [linesSubject]
+  );
+
   const columnsHeadersSubject = useComputed(
     (lines) => buildHeaders(lines, columnHeaderIds, 0),
-    [linesSubject]
+    [linesWithoutDataSubject]
   );
   const columnsSpansSubject = useComputed(extractHeaderSpans, [
     columnsHeadersSubject,
@@ -39,7 +44,7 @@ export default function Grid(props: Props) {
 
   const rowsHeadersSubject = useComputed(
     (lines) => buildHeaders(lines, rowHeaderIds, 0),
-    [linesSubject]
+    [linesWithoutDataSubject]
   );
   const rowsSpansSubject = useComputed(extractHeaderSpans, [
     rowsHeadersSubject,
