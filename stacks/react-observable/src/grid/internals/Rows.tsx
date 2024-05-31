@@ -1,32 +1,31 @@
 import { Fragment } from "react/jsx-runtime";
-import { HeaderTree, probeCall } from "@reactivity-comparison/pivoting";
+import { HeaderSpanLevel, probeCall } from "@reactivity-comparison/pivoting";
 import Header from "./Header";
+import { BehaviorSubject } from "rxjs";
+import { useWatch } from "../../observables/useWatch";
 
 type Props = {
-  rows: HeaderTree[];
-  offset: number;
+  rowsSpansSubject: BehaviorSubject<HeaderSpanLevel[]>;
   columnsDepth: number;
 };
 
 export default function Rows(props: Props) {
   probeCall(Rows.name);
-  const { rows, offset, columnsDepth } = props;
+  const { rowsSpansSubject, columnsDepth } = props;
+  const rowsSpans = useWatch(rowsSpansSubject);
   return (
     <>
-      {rows.map((row) => (
-        <Fragment key={row.value}>
-          <Header
-            offsetX={offset}
-            offsetY={row.offset + columnsDepth}
-            sizeX={1}
-            sizeY={row.size}
-            value={row.value}
-          />
-          <Rows
-            rows={row.children}
-            offset={offset + 1}
-            columnsDepth={columnsDepth}
-          />
+      {rowsSpans.map((spanLevel, index) => (
+        <Fragment key={index}>
+          {spanLevel.map((span) => (
+            <Header
+              offsetX={index}
+              offsetY={span.backingTree.offset + columnsDepth}
+              sizeX={1}
+              sizeY={span.backingTree.size}
+              value={span.backingTree.value}
+            />
+          ))}
         </Fragment>
       ))}
     </>
