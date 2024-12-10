@@ -216,7 +216,8 @@ export function computeValue(entries: PathEntry[], lines: Line[]): number {
   return value;
 }
 
-export const cellSize = 100;
+export const cellSize = 128;
+export const cellHeight = 32;
 
 export function toHeaders(headers: Record<string, string>): LineHeaders {
   return headers as LineHeaders;

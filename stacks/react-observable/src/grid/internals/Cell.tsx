@@ -1,4 +1,8 @@
-import { probeCall, cellSize } from "@reactivity-comparison/pivoting";
+import {
+  probeCall,
+  cellSize,
+  cellHeight,
+} from "@reactivity-comparison/pivoting";
 
 type Props = {
   value: number;
@@ -12,13 +16,17 @@ export default function Cell(props: Props) {
   return (
     <div
       style={{
+        boxSizing: "border-box",
         position: "absolute",
-        top: offsetY * cellSize,
+        top: offsetY * cellHeight,
         left: offsetX * cellSize,
         width: cellSize,
-        height: cellSize,
-        border: "1px solid #aaa",
+        height: cellHeight,
+        color: "#000",
+        border: "1px solid #ededef",
+        backgroundColor: "rgb(255,255,255)",
         overflow: "hidden",
+        padding: "4px 8px",
       }}
     >
       {value}
