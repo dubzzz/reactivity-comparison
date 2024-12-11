@@ -10,43 +10,59 @@ import {
 const initialLines = [
   {
     headers: toHeaders({
-      Country: "France",
-      Town: "Mende",
-      Product: "A",
+      Year: "2020",
+      Kind: "Sussex",
+      Chicken: "Bianca",
     }),
-    value: 1,
+    value: 166,
   },
   {
     headers: toHeaders({
-      Country: "France",
-      Town: "Mende",
-      Product: "B",
+      Year: "2020",
+      Kind: "Sussex",
+      Chicken: "Bernard",
     }),
-    value: 2,
+    value: 130,
   },
   {
     headers: toHeaders({
-      Country: "France",
-      Town: "Lyon",
-      Product: "B",
+      Year: "2021",
+      Kind: "Sussex",
+      Chicken: "Bianca",
     }),
-    value: 3,
+    value: 184,
   },
   {
     headers: toHeaders({
-      Country: "United-States",
-      Town: "New-York",
-      Product: "A",
+      Year: "2021",
+      Kind: "Sussex",
+      Chicken: "Bernard",
     }),
-    value: 4,
+    value: 129,
   },
   {
     headers: toHeaders({
-      Country: "United-States",
-      Town: "New-York",
-      Product: "C",
+      Year: "2022",
+      Kind: "Sussex",
+      Chicken: "Bianca",
     }),
-    value: 5,
+    value: 54,
+  },
+  {
+    headers: toHeaders({
+      Year: "2022",
+      Kind: "Sussex",
+      Chicken: "Bernard",
+    }),
+    value: 47,
+  },
+  {
+    headers: toHeaders({
+      Year: "2022",
+      Kind: "Azur",
+      Chicken: "Jasmine",
+    }),
+    value: 62,
   },
 ];
 
@@ -75,11 +91,11 @@ export default function App() {
           Update one cell
         </button>
       </div>
-      <div style={{ position: "relative" }}>
+      <div style={{ position: "relative", marginTop:"8px" }}>
         <Grid
           lines={lines}
-          rowHeaderIds={[toHeaderId("Country"), toHeaderId("Town")]}
-          columnHeaderIds={[toHeaderId("Product")]}
+          rowHeaderIds={[toHeaderId("Year")]}
+          columnHeaderIds={[toHeaderId("Kind"),toHeaderId("Chicken")]}
         ></Grid>
       </div>
     </div>

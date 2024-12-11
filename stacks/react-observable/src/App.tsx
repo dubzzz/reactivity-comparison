@@ -11,43 +11,59 @@ import { readSync } from "./observables/readSync";
 const initialLines = [
   {
     headers: toHeaders({
-      Country: "France",
-      Town: "Mende",
-      Product: "A",
+      Year: "2020",
+      Kind: "Sussex",
+      Chicken: "Bianca",
     }),
-    value: 1,
+    value: 166,
   },
   {
     headers: toHeaders({
-      Country: "France",
-      Town: "Mende",
-      Product: "B",
+      Year: "2020",
+      Kind: "Sussex",
+      Chicken: "Bernard",
     }),
-    value: 2,
+    value: 130,
   },
   {
     headers: toHeaders({
-      Country: "France",
-      Town: "Lyon",
-      Product: "B",
+      Year: "2021",
+      Kind: "Sussex",
+      Chicken: "Bianca",
     }),
-    value: 3,
+    value: 184,
   },
   {
     headers: toHeaders({
-      Country: "United-States",
-      Town: "New-York",
-      Product: "A",
+      Year: "2021",
+      Kind: "Sussex",
+      Chicken: "Bernard",
     }),
-    value: 4,
+    value: 129,
   },
   {
     headers: toHeaders({
-      Country: "United-States",
-      Town: "New-York",
-      Product: "C",
+      Year: "2022",
+      Kind: "Sussex",
+      Chicken: "Bianca",
     }),
-    value: 5,
+    value: 54,
+  },
+  {
+    headers: toHeaders({
+      Year: "2022",
+      Kind: "Sussex",
+      Chicken: "Bernard",
+    }),
+    value: 47,
+  },
+  {
+    headers: toHeaders({
+      Year: "2022",
+      Kind: "Azur",
+      Chicken: "Jasmine",
+    }),
+    value: 62,
   },
 ];
 
@@ -80,26 +96,19 @@ export default function App() {
           onClick={() => {
             const lines = readSync(linesSubject);
             setLines([
-              ...lines.slice(0, 4),
-              {
-                headers: toHeaders({
-                  Country: "United-States",
-                  Town: "Los Angeles",
-                  Product: "ABCD"[Math.floor(Math.random() * 4)],
-                }),
-                value: Math.floor(Math.random() * 10),
-              },
+              { ...lines[0], value: lines[0].value + 1 },
+              ...lines.slice(1),
             ]);
           }}
         >
           Update one value
         </button>
       </div>
-      <div style={{ position: "relative" }}>
+      <div style={{ position: "relative", marginTop: "8px" }}>
         <Grid
           linesSubject={linesSubject}
-          rowHeaderIds={[toHeaderId("Country"), toHeaderId("Town")]}
-          columnHeaderIds={[toHeaderId("Product")]}
+          rowHeaderIds={[toHeaderId("Year")]}
+          columnHeaderIds={[toHeaderId("Kind"), toHeaderId("Chicken")]}
         ></Grid>
       </div>
     </div>
