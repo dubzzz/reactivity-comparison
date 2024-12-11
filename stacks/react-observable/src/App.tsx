@@ -92,7 +92,7 @@ export default function App() {
         >
           Update one cell
         </button>
-        <button
+        {/*<button
           onClick={() => {
             const lines = readSync(linesSubject);
             setLines([
@@ -102,7 +102,7 @@ export default function App() {
           }}
         >
           Update one value
-        </button>
+        </button>*/}
       </div>
       <div style={{ position: "relative", marginTop: "8px" }}>
         <Grid
